@@ -10,8 +10,8 @@ const ArticlePage = () => {
   return (
     <>
       <h1>{article.name}</h1>
-      {article.content.map((paragraph) => (
-        <p>{paragraph}</p>
+      {article.content.map((paragraph, i) => (
+        <p key={i}>{paragraph}</p>
       ))}
     </>
   );
