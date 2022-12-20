@@ -17,6 +17,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/articles" element={<ArticlesListPage />} />
+            {/* When React notices a URL parameter, it(React) passes a prompt to the component at a route (such as the name of a page) that tells the component the value of the section of your URL. */}
             {/* here :articleId is a URL parameter */}
             <Route path="/articles/:articleId" element={<ArticlePage />} />
             <Route path="*" element={<NotFoundPage />} />
