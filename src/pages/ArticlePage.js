@@ -1,18 +1,24 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import NotFoundPage from "./NotFoundPage";
 import articles from "./article-content";
 
 const ArticlePage = () => {
-  // key of the params object is articleId and value will be whatever that has been specified in the url after ".../articles/"
-  // const params = useParams();
   const [articleInfo, setArticleInfo] = useState({ upvotes: 0, comments: [] });
+  const { articleId } = useParams();
 
   useEffect(() => {
-    setArticleInfo({ upvotes: Math.ceil(Math.random() * 10), comments: [] });
+    // since we're not allowed to use async as the first argument to the useEffect
+    const loadArticleInfo = async () => {
+      const response = await axios.get(`/api/articles/${articleId}`);
+      const newArticleInfo = response.data;
+      setArticleInfo(newArticleInfo);
+    };
+
+    loadArticleInfo();
   }, []);
 
-  const { articleId } = useParams();
   const article = articles.find((article) => article.name === articleId);
 
   if (!article) {
