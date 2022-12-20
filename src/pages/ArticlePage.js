@@ -4,11 +4,14 @@ import axios from "axios";
 import NotFoundPage from "./NotFoundPage";
 import CommentsList from "../components/CommentsList";
 import AddCommentForm from "../components/AddCommentForm";
+import useUser from "../hooks/useUser";
 import articles from "./article-content";
 
 const ArticlePage = () => {
   const [articleInfo, setArticleInfo] = useState({ upvotes: 0, comments: [] });
   const { articleId } = useParams();
+
+  const { user, isLoading } = useUser();
 
   useEffect(() => {
     // since we're not allowed to use async as the first argument to the useEffect
@@ -37,16 +40,25 @@ const ArticlePage = () => {
     <>
       <h1>{article.name}</h1>
       <div className="upvotes-section">
-        <button onClick={addUpvote}>Upvote</button>
+        {user ? (
+          <button onClick={addUpvote}>Upvote</button>
+        ) : (
+          <button>Login to Upvote</button>
+        )}
+
         <p>This article has {articleInfo.upvotes} upvote(s)</p>
       </div>
       {article.content.map((paragraph, i) => (
         <p key={i}>{paragraph}</p>
       ))}
-      <AddCommentForm
-        articleName={articleId}
-        onArticleUpdated={(updatedArticle) => setArticleInfo(updatedArticle)}
-      />
+      {user ? (
+        <AddCommentForm
+          articleName={articleId}
+          onArticleUpdated={(updatedArticle) => setArticleInfo(updatedArticle)}
+        />
+      ) : (
+        <button>Login to add a comment</button>
+      )}
       {/* 
         this(comments) has been created as a separate component but not working in my and so we've removed it and added as jsx 
       */}
