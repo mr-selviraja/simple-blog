@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import NotFoundPage from "./NotFoundPage";
+import CommentsList from "../components/CommentsList";
 import articles from "./article-content";
 
 const ArticlePage = () => {
@@ -31,6 +32,16 @@ const ArticlePage = () => {
       <p>This article has {articleInfo.upvotes} upvote(s)</p>
       {article.content.map((paragraph, i) => (
         <p key={i}>{paragraph}</p>
+      ))}
+      {/* 
+        this(comments) has been created as a separate component but not working in my and so we've removed it and added as jsx 
+      */}
+      <h3>Comments:</h3>
+      {articleInfo.comments.map((comment, i) => (
+        <div className="comment" key={i}>
+          <h4>{comment.postedBy}</h4>
+          <p>{comment.text}</p>
+        </div>
       ))}
     </>
   );
